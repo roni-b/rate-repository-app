@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
   },
   flexUpperText: {
     flexDirection: 'column',
-    flexWrap: 'wrap'
   },
   flexLowerText: {
     flexDirection: 'row',

@@ -4,6 +4,8 @@ import FormikTextInput from './FormikTextInput';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import theme from '../theme';
+import useSignIn from '../hooks/useSignIn';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,10 +51,16 @@ const validationSchema = yup.object().shape({
 });
 
 const SignIn = () => {
+  const navigate = useNavigate();
+  const [signIn] = useSignIn();
 
-  const onSubmit = () => {
-    console.log(123)
-  }
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    await signIn({ username, password });
+
+    navigate('/', { replace: true });
+  };
 
   const initialValues = {
     username: '',
@@ -60,7 +68,11 @@ const SignIn = () => {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+    <Formik
+    initialValues={initialValues}
+    onSubmit={onSubmit}
+    validationSchema={validationSchema}
+    >
       {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
     </Formik>
   );
